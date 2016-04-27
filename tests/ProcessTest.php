@@ -35,14 +35,19 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldTriggerHandlerTwoTimes()
     {
-        $this->expectOutputString('INITINIT');
+        $this->expectOutputString('INIT1INIT2INIT1INIT2');
 
         $process = $this->createProcess();
         $process->on(TrackableInterface::INIT | TrackableInterface::FINISH, function () {
-            echo 'INIT';
+            echo 'INIT1';
+        });
+
+        $process->on(TrackableInterface::INIT | TrackableInterface::FINISH, function () {
+            echo 'INIT2';
         });
 
         $process->trigger(TrackableInterface::INIT);
+        $process->trigger(TrackableInterface::ERROR);
         $process->trigger(TrackableInterface::FINISH);
     }
 

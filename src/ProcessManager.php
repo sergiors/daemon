@@ -72,7 +72,7 @@ class ProcessManager
         $this->process->trigger($event);
 
         if ($event & (TrackableInterface::ERROR | TrackableInterface::FAILURE)) {
-            $this->logger->alert('Could not run.', $args);
+            $this->logger->alert(sprintf('Could not run event "%s".', (string) $event), $args);
             return;
         }
 
