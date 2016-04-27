@@ -30,13 +30,7 @@ class ProcessManager
 
     public function start()
     {
-        $pid = pcntl_fork();
-
-        if ($pid === -1) {
-            throw new \RuntimeException('Could not fork');
-        }
-
-        if ($pid) {
+        if ($this->fork()) {
             return;
         }
 
@@ -55,6 +49,17 @@ class ProcessManager
         }
 
         $this->silentTrigger(TrackableInterface::FINISH);
+    }
+
+    protected function fork()
+    {
+        $pid = pcntl_fork();
+
+        if ($pid === -1) {
+            throw new \RuntimeException('Could not fork');
+        }
+
+        return $pid;
     }
 
     /**

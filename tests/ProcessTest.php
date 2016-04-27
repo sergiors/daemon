@@ -19,6 +19,9 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $process->execute());
     }
 
+    /**
+     * @test
+     */
     public function shouldTriggerHandler()
     {
         $this->expectOutputString('INIT');
