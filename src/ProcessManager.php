@@ -41,7 +41,8 @@ class ProcessManager
         $this->silentTrigger(TrackableEvents::START);
 
         try {
-            $this->process->execute() ?: $this->silentTrigger(TrackableEvents::SUCCESS);
+            $this->process->execute();
+            $this->silentTrigger(TrackableEvents::SUCCESS);
         } catch (\ErrorException $e) {
             $this->silentTrigger(TrackableEvents::ERROR, ['exception' => $e]);
         } catch (\Exception $e) {
