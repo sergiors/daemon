@@ -34,6 +34,7 @@ class ProcessManager
             return;
         }
 
+        // Avoids sending child's data to TTY
         fclose(STDIN);
         fclose(STDOUT);
         fclose(STDERR);
@@ -52,6 +53,9 @@ class ProcessManager
         $this->silentTrigger(TrackableEvents::FINISH);
     }
 
+    /**
+     * @return int
+     */
     protected function fork()
     {
         $pid = pcntl_fork();
