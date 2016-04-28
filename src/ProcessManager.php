@@ -25,7 +25,7 @@ class ProcessManager
         $this->process = $process;
         $this->logger = new LoggerAdapter($logger);
 
-        $this->trigger(TrackableInterface::INIT);
+        $this->trigger(TrackableEvents::INIT);
     }
 
     public function start()
@@ -38,24 +38,24 @@ class ProcessManager
         fclose(STDOUT);
         fclose(STDERR);
 
-        $this->silentTrigger(TrackableInterface::START);
+        $this->silentTrigger(TrackableEvents::START);
 
         try {
-            $this->process->execute() ?: $this->silentTrigger(TrackableInterface::SUCCESS);
+            $this->process->execute() ?: $this->silentTrigger(TrackableEvents::SUCCESS);
         } catch (\ErrorException $e) {
-            $this->silentTrigger(TrackableInterface::ERROR, ['exception' => $e]);
+            $this->silentTrigger(TrackableEvents::ERROR, ['exception' => $e]);
         } catch (\Exception $e) {
-            $this->silentTrigger(TrackableInterface::FAILURE, ['exception' => $e]);
+            $this->silentTrigger(TrackableEvents::FAILURE, ['exception' => $e]);
         }
 
-        $this->silentTrigger(TrackableInterface::FINISH);
+        $this->silentTrigger(TrackableEvents::FINISH);
     }
 
     protected function fork()
     {
         $pid = pcntl_fork();
 
-        if ($pid === -1) {
+        if (-1 === $pid) {
             throw new \RuntimeException('Could not fork');
         }
 
@@ -70,13 +70,13 @@ class ProcessManager
      */
     protected function trigger($event, array $args = [])
     {
-        if (false === $this->process instanceof TrackableInterface) {
+        if (!$this->process instanceof TrackableInterface) {
             return;
         }
 
         $this->process->trigger($event);
 
-        if ($event & (TrackableInterface::ERROR | TrackableInterface::FAILURE)) {
+        if ($event & (TrackableEvents::ERROR | TrackableEvents::FAILURE)) {
             $this->logger->alert(sprintf('Could not run event "%s".', (string) $event), $args);
             return;
         }

@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 class LoggerAdapter
 {
     /**
-     * @var null|LoggerInterface
+     * @var LoggerInterface|null
      */
     protected $logger;
 
@@ -25,9 +25,7 @@ class LoggerAdapter
      */
     public function info($message, array $context = [])
     {
-        if ($this->logger) {
-            $this->logger->info($message, $context);
-        }
+        null === $this->logger ?: $this->logger->info($message, $context);
     }
 
     /**
@@ -36,8 +34,6 @@ class LoggerAdapter
      */
     public function alert($message, array $context = [])
     {
-        if ($this->logger) {
-            $this->logger->alert($message, $context);
-        }
+        null === $this->logger ?: $this->logger->alert($message, $context);
     }
 }

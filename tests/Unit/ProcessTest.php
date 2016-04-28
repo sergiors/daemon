@@ -1,9 +1,9 @@
 <?php
 
-namespace Sergiors\Daemon\Tests;
+namespace Sergiors\Daemon\Tests\Unit;
 
 use Sergiors\Daemon\Process;
-use Sergiors\Daemon\TrackableInterface;
+use Sergiors\Daemon\TrackableEvents;
 
 class ProcessTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,10 +27,10 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->expectOutputString('INIT');
 
         $process = $this->createProcess();
-        $process->on(TrackableInterface::INIT, function () {
+        $process->on(TrackableEvents::INIT, function () {
             echo 'INIT';
         });
-        $process->trigger(TrackableInterface::INIT);
+        $process->trigger(TrackableEvents::INIT);
     }
 
     /**
@@ -41,17 +41,17 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
         $this->expectOutputString('INIT1INIT2INIT1INIT2');
 
         $process = $this->createProcess();
-        $process->on(TrackableInterface::INIT | TrackableInterface::FINISH, function () {
+        $process->on(TrackableEvents::INIT | TrackableEvents::FINISH, function () {
             echo 'INIT1';
         });
 
-        $process->on(TrackableInterface::INIT | TrackableInterface::FINISH, function () {
+        $process->on(TrackableEvents::INIT | TrackableEvents::FINISH, function () {
             echo 'INIT2';
         });
 
-        $process->trigger(TrackableInterface::INIT);
-        $process->trigger(TrackableInterface::ERROR);
-        $process->trigger(TrackableInterface::FINISH);
+        $process->trigger(TrackableEvents::INIT);
+        $process->trigger(TrackableEvents::ERROR);
+        $process->trigger(TrackableEvents::FINISH);
     }
 
     public function createProcess()
