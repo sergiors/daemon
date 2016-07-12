@@ -15,12 +15,15 @@
     "autoload-dev": {
         "psr-4": {
             "Sergiors\\Daemon\\Tests\\": "tests"
-        }
+        },
+        "files": [
+            "src/Prelude/head.php"
+        ]
     },
     "require": {
-        "php": "^5.6|^7.0",
-        "ext-posix": "^5.6|^7.0",
-        "ext-pcntl": "^5.6|^7.0",
+        "php": "^7.0",
+        "ext-posix": "^7.0",
+        "ext-pcntl": "^7.0",
         "psr/log": "^1.0"
     },
     "require-dev": {

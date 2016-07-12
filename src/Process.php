@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Sergiors\Daemon;
+
+use function Sergiors\Daemon\Prelude\head;
 
 class Process implements ProcessInterface, TrackableInterface
 {
@@ -41,11 +45,11 @@ class Process implements ProcessInterface, TrackableInterface
             return ($eventKey & $event) === $event;
         }, ARRAY_FILTER_USE_KEY);
 
-        if (empty($handlers)) {
+        if ([] === $handlers) {
             return;
         }
 
-        $handlers = array_shift($handlers);
+        $handlers = head($handlers);
 
         foreach ($handlers as $handler) {
             call_user_func($handler);

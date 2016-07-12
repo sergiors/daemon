@@ -34,7 +34,7 @@ class ProcessManager
             return;
         }
 
-        // Avoids sending child's data to TTY
+        // avoids sending child's data to TTY
         fclose(STDIN);
         fclose(STDOUT);
         fclose(STDERR);
@@ -61,7 +61,7 @@ class ProcessManager
         $pid = pcntl_fork();
 
         if (-1 === $pid) {
-            throw new \RuntimeException('Could not fork');
+            throw new \RuntimeException('Could not fork.');
         }
 
         return $pid;
@@ -90,12 +90,11 @@ class ProcessManager
     }
 
     /**
-     * @param int $event
+     * @param int   $event
+     * @param array $args
      */
-    protected function silentTrigger($event)
+    protected function silentTrigger($event, ...$args)
     {
-        $args = array_slice(func_get_args(), 1);
-
         try {
             $this->trigger($event, $args);
         } catch (\Exception $e) {
