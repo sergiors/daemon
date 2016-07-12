@@ -39,7 +39,7 @@ class Process implements ProcessInterface, TrackableInterface
      *
      * {@inheritdoc}
      */
-    public function trigger($event)
+    public function trigger(int $event)
     {
         $handlers = array_filter($this->handlers, function ($eventKey) use ($event) {
             return ($eventKey & $event) === $event;
@@ -59,7 +59,7 @@ class Process implements ProcessInterface, TrackableInterface
     /**
      * {@inheritdoc}
      */
-    public function on($event, callable $callback)
+    public function on(int $event, callable $callback)
     {
         $this->handlers[$event][] = $callback;
     }

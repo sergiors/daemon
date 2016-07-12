@@ -10,15 +10,15 @@
     "autoload": {
         "psr-4": {
             "Sergiors\\Daemon\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Sergiors\\Daemon\\Tests\\": "tests"
         },
         "files": [
             "src/Prelude/head.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sergiors\\Daemon\\Tests\\": "tests"
+        }
     },
     "require": {
         "php": "^7.0",
